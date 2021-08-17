@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="Organization"
+             targetNamespace="urn:Organization"
+             xmlns:tns="urn:Organization"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <message name="FilterRequest">
+        <part name="params" type="xsd:string"/>
+    </message>
+
+    <message name="FilterResponse">
+        <part name="result" type="xsd:string"/>
+    </message>
+
+    <message name="readRequest">
+        <part name="id" type="xsd:string"/>
+        <part name="data" type="xsd:string"/>
+    </message>
+
+    <message name="readResponse">
+        <part name="result" type="xsd:string"/>
+    </message>
+
+    <message name="writeRequest">
+        <part name="id" type="xsd:string"/>
+        <part name="data" type="xsd:string"/>
+    </message>
+
+    <message name="writeResponse">
+        <part name="result" type="xsd:string"/>
+    </message>
+
+    <portType name="FilterPort">
+        <operation name="write">
+            <input message="tns:writeRequest"/>
+            <output message="tns:writeResponse"/>
+        </operation>
+        <operation name="read">
+            <input message="tns:readRequest"/>
+            <output message="tns:readResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="FilterBinding" type="tns:FilterPort">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="write">
+            <soap:operation soapAction="urn:FilterAction"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:Organization" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:Organization" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+        <operation name="read">
+            <soap:operation soapAction="urn:LoginAction"/>
+            <input>
+                <soap:body use="encoded" namespace="urn:Organization" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="urn:Organization" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="WSDLService">
+        <port name="FilterPort" binding="tns:FilterBinding">
+            <soap:address location="http://localhost/webServicePHP_soap/service.php"/>
+        </port>
+    </service>
+</definitions>
